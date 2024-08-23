@@ -1,5 +1,5 @@
 import unittest
-from bit_fun import is_even, is_power_of_2
+from bit_fun import is_even, is_power_of_2, int_mul
 
 class TestIsEven(unittest.TestCase):
     def test_even_number(self):
@@ -36,6 +36,28 @@ class TestIsEven(unittest.TestCase):
         self.assertFalse(is_power_of_2(-2))
         self.assertFalse(is_power_of_2(-4))
         self.assertFalse(is_power_of_2(-8))
+
+    def test_positive_numbers_int_mul(self):
+        self.assertEqual(int_mul(3, 4), 12)
+        self.assertEqual(int_mul(7, 5), 35)
+        self.assertEqual(int_mul(666, 12345), 8221770)
+
+    def test_negative_numbers_int_mul(self):
+        self.assertEqual(int_mul(-3, -4), 12)
+        self.assertEqual(int_mul(-7, -5), 35)
+        self.assertEqual(int_mul(-666, -12345), 8221770)
+
+    def test_mixed_sign_numbers_int_mul(self):
+        self.assertEqual(int_mul(-3, 4), -12)
+        self.assertEqual(int_mul(7, -5), -35)
+        self.assertEqual(int_mul(-666, 12345), -8221770)
+        self.assertEqual(int_mul(666, -12345), -8221770)
+
+    def test_zero_int_mul(self):
+        self.assertEqual(int_mul(0, 4), 0)
+        self.assertEqual(int_mul(7, 0), 0)
+        self.assertEqual(int_mul(0, 0), 0)
+        self.assertEqual(int_mul(666, 0), 0)
 
 if __name__ == '__main__':
     unittest.main()
