@@ -1,4 +1,5 @@
 from __future__ import annotations
+from collections.abc import Iterator
 from typing import cast
 
 
@@ -23,20 +24,27 @@ class OrderedSet[T]:
         self.__sentinel = _Node()
         self.__count = 0
 
-    def __repr__(self) -> str:
-        result: list[T] = []
+    def __iter__(self) -> Iterator[T]:
         current: _Node[T] = self.__sentinel.next
         while current != self.__sentinel:
-            result.append(cast(T, current.info))
+            yield cast(T, current.info)
             current = current.next
-        return f'OrderedSet({ result if result else "" })'
+
+    def __repr__(self) -> str:
+        return f'OrderedSet({ list(self) if self else "" })'
 
     def __len__(self) -> int:
         return self.__count
 
+    def __contains__(self, value: T) -> bool:
+        for elem in self:
+            if value == elem:
+                return True
+        return False
+
     def add(self, value: T) -> None:
-        # TODO: Check if value exists
-        # TODO: If not, add to the end of the list
+        if value in self:
+            return
         self.__count += 1
         new_node: _Node[T] = _Node(value)
         new_node.next = self.__sentinel
@@ -48,9 +56,17 @@ class OrderedSet[T]:
 if __name__ == '__main__':
     a: OrderedSet[str] = OrderedSet()
     print(f'{a = }')
+    print(f'{bool(a) = }')
     a.add('enero')
+    a.add('febrero')
     a.add('febrero')
     a.add('marzo')
     a.add('abril')
+    a.add('enero')
     print(f'{a = }')
     print(f'{len(a) = }')
+    print(f'{bool(a) = }')
+    for elem in a:
+        print(elem)
+    print(f'{"marzo" in a = }')
+    print(f'{"septiembre" in a = }')
