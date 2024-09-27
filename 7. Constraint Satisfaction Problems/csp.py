@@ -18,7 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Optional
 from abc import ABC, abstractmethod
 
 
@@ -65,7 +64,7 @@ class CSP[V, D]:
 
     def backtracking_search(
             self,
-            assignment: dict[V, D] = {}) -> Optional[dict[V, D]]:
+            assignment: dict[V, D] = {}) -> dict[V, D] | None:
         # assignment is complete if every variable is assigned (our base case)
         if len(assignment) == len(self.variables):
             return assignment
@@ -81,7 +80,7 @@ class CSP[V, D]:
             local_assignment[first] = value
             # if we're still consistent, we recurse (continue)
             if self.consistent(first, local_assignment):
-                result: Optional[dict[V, D]] = self.backtracking_search(
+                result: dict[V, D] | None = self.backtracking_search(
                     local_assignment)
                 # if we didn't find the result, we will end up backtracking
                 if result is not None:
