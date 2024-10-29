@@ -20,6 +20,7 @@ class Edge(NamedTuple):
     def __hash__(self) -> int:
         return hash(self.weight) + hash(self.u) + hash(self.v)
 
+
 def kruskal_mst(graph: WeightedGraph) -> tuple[int, WeightedGraph]:
     queue: list[Edge] = make_heap(graph)
     result: WeightedGraph = {k: set() for k in graph}
